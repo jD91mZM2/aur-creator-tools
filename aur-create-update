@@ -1,0 +1,30 @@
+#!/bin/sh
+
+set -e
+
+# Source: https://stackoverflow.com/a/29613573/5069285
+quoteSubst() {
+  IFS= read -d '' -r < <(sed -e ':a' -e '$!{N;ba' -e '}' -e 's/[&/\]/\\&/g; s/\n/\\&/g' <<<"$1")
+  printf %s "${REPLY%$'\n'}"
+}
+# End
+
+if [ -z "$1" ]; then
+    echo "aur-update <version>"
+    exit
+fi
+
+sed -i "s/^\(pkgver=\).*$/\1$(quoteSubst "$1")/" PKGBUILD
+updpkgsums
+makepkg --printsrcinfo > .SRCINFO
+
+echo -n "Install new package version? [y/n] "
+read -r -n 1 input
+
+echo
+echo "Input: [$input]"
+
+if [ "$input" == "y" ]; then
+    echo "yee"
+    makepkg -sri
+fi
