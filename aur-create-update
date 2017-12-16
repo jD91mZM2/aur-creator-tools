@@ -25,6 +25,5 @@ echo
 echo "Input: [$input]"
 
 if [ "$input" == "y" ]; then
-    echo "yee"
     makepkg -sri
 fi
