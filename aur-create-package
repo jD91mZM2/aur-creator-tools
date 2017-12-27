@@ -38,6 +38,6 @@ build() {
 }
 package() {
     cd "\$srcdir/\$pkgname-\$pkgver"
-    # install -Dm 644 "bin/\$pkgname" "\$pkgdir/usr/bin/\$pkgname"
+    # install -Dm 755 "bin/\$pkgname" "\$pkgdir/usr/bin/\$pkgname"
 }
 EOF
