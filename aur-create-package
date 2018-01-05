@@ -9,6 +9,7 @@ mkdir "$name"
 cd "$name"
 
 git init
+git remote add origin "ssh://aur@aur.archlinux.org/$name.git"
 
 cat > .gitignore <<EOF
 *
