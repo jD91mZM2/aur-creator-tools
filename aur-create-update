@@ -9,21 +9,33 @@ quoteSubst() {
 }
 # End
 
-if [ -z "$1" ]; then
+version="$1"
+
+if [ -z "$version" ]; then
     echo "aur-update <version>"
     exit
 fi
 
-sed -i "s/^\(pkgver=\).*$/\1$(quoteSubst "$1")/" PKGBUILD
+sed -i "s/^\(pkgver=\).*$/\1$(quoteSubst "$version")/" PKGBUILD
+sed -i "s/^\(pkgrel=\).*$/\11/" PKGBUILD
 updpkgsums
 makepkg --printsrcinfo > .SRCINFO
 
 echo -n "Install new package version? [y/n] "
 read -r -n 1 input
-
 echo
-echo "Input: [$input]"
+
+if [ -z "$input" ] || [ "$input" == "y" ]; then
+    makepkg -sri
+fi
+
+git diff PKGBUILD .SRCINFO
+
+echo -n "Commit new version? [y/n] "
+read -r -n 1 input
+echo
 
 if [ "$input" == "y" ]; then
-    makepkg -sri
+    git add PKGBUILD .SRCINFO
+    git commit -m "Bump version to $version"
 fi
