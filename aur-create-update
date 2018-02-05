@@ -21,8 +21,8 @@ sed -i "s/^\(pkgrel=\).*$/\11/" PKGBUILD
 updpkgsums
 makepkg --printsrcinfo > .SRCINFO
 
-echo -n "Install new package version? [y/n] "
-read -r -n 1 input
+echo -n "Install new package version? [Y/n] "
+read -r input
 echo
 
 if [ -z "$input" ] || [ "$input" == "y" ]; then
@@ -31,11 +31,11 @@ fi
 
 git diff PKGBUILD .SRCINFO
 
-echo -n "Commit new version? [y/n] "
-read -r -n 1 input
+echo -n "Commit new version? [Y/n] "
+read -r input
 echo
 
-if [ "$input" == "y" ]; then
+if [ -z "$input" ] || [ "$input" == "y" ]; then
     git add PKGBUILD .SRCINFO
     git commit -m "Bump version to $version"
 fi
