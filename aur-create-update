@@ -23,7 +23,6 @@ makepkg --printsrcinfo > .SRCINFO
 
 echo -n "Install new package version? [Y/n] "
 read -r input
-echo
 
 if [ -z "$input" ] || [ "${input,,}" == "y" ]; then
     makepkg -sri
@@ -33,7 +32,6 @@ git diff PKGBUILD .SRCINFO
 
 echo -n "Commit new version? [Y/n] "
 read -r input
-echo
 
 if [ -z "$input" ] || [ "${input,,}" == "y" ]; then
     git add PKGBUILD .SRCINFO
